@@ -1,0 +1,8 @@
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\bin\Debug\netcoreapp3.1\Labb4ClassLibrary.deps.json
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\bin\Debug\netcoreapp3.1\Labb4ClassLibrary.dll
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\bin\Debug\netcoreapp3.1\Labb4ClassLibrary.pdb
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\obj\Debug\netcoreapp3.1\Labb4ClassLibrary.csprojAssemblyReference.cache
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\obj\Debug\netcoreapp3.1\Labb4ClassLibrary.AssemblyInfoInputs.cache
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\obj\Debug\netcoreapp3.1\Labb4ClassLibrary.AssemblyInfo.cs
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\obj\Debug\netcoreapp3.1\Labb4ClassLibrary.dll
+C:\Users\haegg\Desktop\Code\C#\Databas_Kurs\Rock-Paper-Scissor-Labb4\Labb4ClassLibrary\obj\Debug\netcoreapp3.1\Labb4ClassLibrary.pdb
