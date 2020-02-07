@@ -11,7 +11,7 @@ namespace Labb4ClassLibrary
 {
     public class Server
     {
-        public static string IP { get; private set; }
+        public static string IP { get; private set; } = "192.168.0.5";
         public static readonly int PORT = 2001;
 
         public static Cosmos Cosmos { get; private set; }

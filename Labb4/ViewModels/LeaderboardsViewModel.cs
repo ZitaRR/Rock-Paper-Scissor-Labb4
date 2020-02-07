@@ -51,21 +51,24 @@ namespace Labb4.ViewModels
         {
             SortCommand = new SortLeaderboardsCommand(this);
 
-            Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(Server.IP, Server.PORT);
-            socket.Send(new byte[1]);
-
-            byte[] data = new byte[1024];
-            socket.Receive(data);
-            int size = BitConverter.ToInt32(data, 0);
-
-            for (int i = 0; i < size; i++)
+            new Thread(() =>
             {
-                data = new byte[1024];
+                Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect(Server.IP, Server.PORT);
+                socket.Send(new byte[1]);
+
+                byte[] data = new byte[1024];
                 socket.Receive(data);
-                var result = MatchResult.GetObject(data);
-                Matches.Add(result);
-            }
+                int size = BitConverter.ToInt32(data, 0);
+
+                for (int i = 0; i < size; i++)
+                {
+                    data = new byte[1024];
+                    socket.Receive(data);
+                    var result = MatchResult.GetObject(data);
+                    Matches.Add(result);
+                }
+            }).Start();
         }
     }
 }
