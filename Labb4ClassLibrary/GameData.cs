@@ -17,6 +17,7 @@ namespace Labb4ClassLibrary
         public Move SelectedMove { get; set; }
         public bool CanPlay { get; set; }
         public bool HasFoundGame { get; set; }
+        public bool ShouldDisconnect { get; set; }
         public int PlayerScore { get; set; }
         public int OpponentScore { get; set; }
 
@@ -28,29 +29,16 @@ namespace Labb4ClassLibrary
             using (var stream = new MemoryStream())
             {
                 var writer = new BinaryWriter(stream);
-                var properties = data.GetType().GetProperties();
 
-                foreach (var property in properties)
-                {
-                    if (property.GetValue(data) == null)
-                        continue;
+                writer.Write(data.PlayerName ?? "");
+                writer.Write(data.OpponentName ?? "");
+                writer.Write((int)data.SelectedMove);
+                writer.Write(data.CanPlay);
+                writer.Write(data.HasFoundGame);
+                writer.Write(data.ShouldDisconnect);
+                writer.Write(data.PlayerScore);
+                writer.Write(data.OpponentScore);
 
-                    switch (property.PropertyType.Name.ToLower())
-                    {
-                        case "move":
-                            writer.Write((int)property.GetValue(data));
-                            break;
-                        case "string":
-                            writer.Write((string)property.GetValue(data));
-                            break;
-                        case "boolean":
-                            writer.Write((bool)property.GetValue(data));
-                            break;
-                        case "int32":
-                            writer.Write((int)property.GetValue(data));
-                            break;
-                    }
-                }
                 return stream.ToArray();
             }
         }
@@ -67,6 +55,7 @@ namespace Labb4ClassLibrary
                     SelectedMove = (Move)reader.ReadInt32(),
                     CanPlay = reader.ReadBoolean(),
                     HasFoundGame = reader.ReadBoolean(),
+                    ShouldDisconnect = reader.ReadBoolean(),
                     PlayerScore = reader.ReadInt32(),
                     OpponentScore = reader.ReadInt32()
                 };

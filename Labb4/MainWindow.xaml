@@ -12,16 +12,20 @@
         </Grid>
         <Grid>
             <StackPanel HorizontalAlignment="Left"
-                    Width="100"
-                    Background="Gray">
+                        Width="100"
+                        Background="Gray">
                 <Button Command="{Binding ViewCommand}"
-                    CommandParameter="Menu"
-                    Content="Menu"
-                    Height="35"/>
+                        CommandParameter="Menu"
+                        Content="Menu"
+                        Height="40"/>
                 <Button Command="{Binding ViewCommand}"
-                    CommandParameter="Game"
-                    Content="Game"
-                    Height="35"/>
+                        CommandParameter="Game"
+                        Content="Game"
+                        Height="40"/>
+                <Button Command="{Binding ViewCommand}"
+                        CommandParameter="Leaderboards"
+                        Content="Leaderboards"
+                        Height="40"/>
             </StackPanel>
         </Grid>
     </Grid>

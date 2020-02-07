@@ -26,7 +26,18 @@ namespace Labb4.Commands
 
         public void Execute(object parameter)
         {
-            main.CurrentView = MainViewModel.Views[parameter.ToString()];
+            switch (parameter.ToString())
+            {
+                case "Menu":
+                    main.CurrentView = new MenuViewModel();
+                    break;
+                case "Game":
+                    main.CurrentView = new GameViewModel();
+                    break;
+                case "Leaderboards":
+                    main.CurrentView = new LeaderboardsViewModel();
+                    break;
+            }
         }
     }
 }

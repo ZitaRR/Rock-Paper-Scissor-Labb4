@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -8,6 +9,8 @@ namespace Labb4ClassLibrary
     internal class Game
     {
         private Dictionary<int, Client> players;
+        private Stopwatch timer = null;
+        private int rounds = 0;
 
         public Game(Client p1, Client p2)
         {
@@ -25,42 +28,66 @@ namespace Labb4ClassLibrary
 
             Console.WriteLine($"{players[1].GameData.PlayerName} and {players[2].GameData.PlayerName} matched against each other!");
 
-            //Handle Game
-            new Thread(() =>
+            while (true)
             {
-                while (true)
+                if (players.Where(p => p.Value.GameData.ShouldDisconnect).Count() > 0)
                 {
-                    players[1].GameData.CanPlay = true;
-                    players[1].SendData();
-
-                    players[2].GameData.CanPlay = true;
-                    players[2].SendData();
-
-                    byte[] data = new byte[1024];
-
-                    players[1].Socket.Receive(data);
-                    players[1].GameData = GameData.GetObject(data);
-
-                    players[2].Socket.Receive(data);
-                    players[2].GameData = GameData.GetObject(data);
-
-                    var result = Winner(players[1], players[2]);
-                    string outcome = result.Item1 == null ? $"It was a tie" : $"{result.Item1.GameData.PlayerName} won with {result.Item2}";
-
-                    Console.WriteLine($"{players[1].GameData.PlayerName} played {players[1].GameData.SelectedMove.ToString()}.\n" +
-                        $"{players[2].GameData.PlayerName} played {players[2].GameData.SelectedMove.ToString()}.\n" +
-                        $"{outcome}.");
-
-                    if (result.Item1 != null)
-                    {
-                        result.Item1.GameData.PlayerScore++;
-                        players.Where(p => p.Value != result.Item1).FirstOrDefault().Value.GameData.OpponentScore++;
-                    }
-
-                    players[1].SendData();
-                    players[2].SendData();
+                    break;
                 }
-            }).Start();
+
+                players[1].GameData.CanPlay = true;
+                players[1].SendData();
+
+                players[2].GameData.CanPlay = true;
+                players[2].SendData();
+
+                if (timer == null)
+                {
+                    timer = new Stopwatch();
+                    timer.Start();
+                }
+
+                byte[] data = new byte[1024];
+
+                players[1].Socket.Receive(data);
+                players[1].GameData = GameData.GetObject(data);
+
+                players[2].Socket.Receive(data);
+                players[2].GameData = GameData.GetObject(data);
+
+                var result = Winner(players[1], players[2]);
+                var outcome = result.Item1 == null ? $"It was a tie" : $"{result.Item1.GameData.PlayerName} won with {result.Item2}";
+
+                Console.WriteLine($"{players[1].GameData.PlayerName} played {players[1].GameData.SelectedMove.ToString()}.\n" +
+                    $"{players[2].GameData.PlayerName} played {players[2].GameData.SelectedMove.ToString()}.\n" +
+                    $"{outcome}.");
+
+                if (result.Item1 != null)
+                {
+                    result.Item1.GameData.PlayerScore++;
+                    players.Where(p => p.Value != result.Item1).FirstOrDefault().Value.GameData.OpponentScore++;
+                    rounds++;
+
+                    if (rounds >= 3)
+                    {
+                        timer.Stop();
+
+                        players[1].GameData.ShouldDisconnect = true;
+                        players[2].GameData.ShouldDisconnect = true;
+
+                        bool player1Win = players[1].GameData.PlayerScore > players[1].GameData.OpponentScore;
+                        bool player2Win = players[2].GameData.PlayerScore > players[2].GameData.OpponentScore;
+
+                        int size = Server.Cosmos.Users.Count();
+
+                        players[1].SaveMatchResult(size + 1, player1Win, timer.Elapsed);
+                        players[2].SaveMatchResult(size + 2, player2Win, timer.Elapsed);
+                    }
+                }
+
+                players[1].SendData();
+                players[2].SendData();
+            }
         }
 
         private (Client, string) Winner(Client player1, Client player2)

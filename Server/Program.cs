@@ -1,4 +1,6 @@
-﻿using Labb4 = Labb4ClassLibrary;
+﻿using System;
+using System.Net;
+using Labb4 = Labb4ClassLibrary;
 
 namespace Server
 {

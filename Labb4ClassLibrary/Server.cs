@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
 namespace Labb4ClassLibrary
 {
     public class Server
     {
-        public static readonly string IP = "192.168.3.221";
+        public static string IP { get; private set; }
         public static readonly int PORT = 2001;
+
+        public static Cosmos Cosmos { get; private set; }
 
         private IPEndPoint endPoint;
         private TcpListener listener;
@@ -17,6 +22,17 @@ namespace Labb4ClassLibrary
 
         public Server()
         {
+            Cosmos = new Cosmos();
+            Cosmos.Database.EnsureCreated();
+
+            foreach (var ip in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    IP = ip.ToString();
+                }
+            }
+
             endPoint = new IPEndPoint(IPAddress.Parse(IP), PORT);
             listener = new TcpListener(endPoint);
             listener.Start();
@@ -37,6 +53,20 @@ namespace Labb4ClassLibrary
                 client.Receive(data);
                 var game = GameData.GetObject(data);
 
+                if (string.IsNullOrEmpty(game.PlayerName))
+                {
+                    int size = Cosmos.Users.Count();
+                    client.Send(BitConverter.GetBytes(size));
+
+                    for (int i = 0; i < size; i++)
+                    {
+                        var result = Cosmos.Users.Find(i + 1);
+                        client.Send(result.ToBytes());
+                    }
+
+                    continue;
+                }
+
                 clients.Add(new Client(client, game));
 
                 if (clients.Count > 1)
@@ -54,7 +84,13 @@ namespace Labb4ClassLibrary
 
                     if (players.Count >= 2)
                     {
-                        new Thread(() => new Game(players[0], players[1])).Start();
+                        new Thread(() =>
+                        {
+                            new Game(players[0], players[1]);
+
+                            clients.Remove(players[0]);
+                            clients.Remove(players[1]);
+                        }).Start();
                     }
                 }
             }

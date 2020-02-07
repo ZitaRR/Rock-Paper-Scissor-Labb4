@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Labb4.Views.LeaderboardsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Labb4.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="700">
+    <Grid>
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Top"
+                    Margin="10">
+            <ComboBox Width="300"
+                      ItemsSource="{Binding SortTypes}"
+                      SelectedIndex="{Binding Index}"/>
+            <Button Command="{Binding SortCommand}"
+                    CommandParameter="{Binding Index}"
+                    Content="Sort"
+                    Margin="30 0"
+                    Width="120"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top"
+                    Margin="10 60">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Player"
+                           Margin="11 0"/>
+                <TextBlock Grid.Column="1" 
+                           Text="Result"/>
+                <TextBlock Grid.Column="2" 
+                           Text="Match Length"/>
+                <TextBlock Grid.Column="3" 
+                           Text="Date"/>
+            </Grid>
+            <ListBox ItemsSource="{Binding Matches}"
+                     BorderBrush="Transparent"
+                     Grid.IsSharedSizeScope="True"
+                     HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Grid.Column="1" 
+                                       Text="{Binding Result}"/>
+                            <TextBlock Grid.Column="2" 
+                                       Text="{Binding Length}"/>
+                            <TextBlock Grid.Column="3" 
+                                       Text="{Binding Date}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

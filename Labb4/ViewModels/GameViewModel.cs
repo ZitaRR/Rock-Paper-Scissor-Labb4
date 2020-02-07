@@ -1,5 +1,7 @@
 ﻿using Labb4.Commands;
 using Labb4.Models;
+using System.IO;
+using System.Windows;
 
 namespace Labb4.ViewModels
 {
@@ -8,9 +10,9 @@ namespace Labb4.ViewModels
         public GameSelectionCommand SelectionCommand { get; }
         public MatchmakeCommand MatchmakeCommand { get; }
         public SendMoveCommand MoveCommand { get; }
-        public string Scissors { get; } = @"C:\Users\Nicklas\Desktop\Code\Databas_Kurs\Labb4\Labb4\Resources\Images\icons8-hand-scissors-100.png";
-        public string Stone { get; } = @"C:\Users\Nicklas\Desktop\Code\Databas_Kurs\Labb4\Labb4\Resources\Images\icons8-clenched-fist-100.png";
-        public string Paper { get; } = @"C:\Users\Nicklas\Desktop\Code\Databas_Kurs\Labb4\Labb4\Resources\Images\icons8-hand-100.png";
+        public string Scissors { get; } = @"\Resources\Images\icons8-hand-scissors-100.png";
+        public string Stone { get; } = @"\Resources\Images\icons8-clenched-fist-100.png";
+        public string Paper { get; } = @"\Resources\Images\icons8-hand-100.png";
 
         private GameModel game;
         public GameModel Game
@@ -36,6 +38,11 @@ namespace Labb4.ViewModels
 
         public GameViewModel()
         {
+            string root = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            Scissors = root + Scissors;
+            Stone = root + Stone;
+            Paper = root + Paper;
+
             SelectionCommand = new GameSelectionCommand(this);
             MatchmakeCommand = new MatchmakeCommand(this);
             MoveCommand = new SendMoveCommand(this);

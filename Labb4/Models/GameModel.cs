@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.ComponentModel;
 using System.Windows;
+using Labb4.ViewModels;
 
 namespace Labb4.Models
 {
@@ -44,7 +45,18 @@ namespace Labb4.Models
                     data = new byte[1024];
                     Socket.Receive(data);
                     GameData = GameData.GetObject(data);
+
+                    if (GameData.ShouldDisconnect)
+                    {
+                        bool won = GameData.PlayerScore > GameData.OpponentScore;
+                        var result = won ? $"You won against {GameData.OpponentName} by {GameData.PlayerScore - GameData.OpponentScore} point(s)." :
+                        $"You lost against {GameData.OpponentName} by {GameData.OpponentScore - GameData.PlayerScore} point(s).";
+                        MessageBox.Show(result);
+                        break;
+                    }
                 }
+
+                MainViewModel.Instance.CurrentView = new MenuViewModel();
             }).Start();
         }
 

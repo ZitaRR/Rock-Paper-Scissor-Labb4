@@ -1,10 +1,6 @@
-﻿using Labb4.ViewModels;
-using Labb4ClassLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,17 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Labb4
+namespace Labb4.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LeaderboardsView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LeaderboardsView : UserControl
     {
-        public MainWindow()
+        public LeaderboardsView()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
     }
 }

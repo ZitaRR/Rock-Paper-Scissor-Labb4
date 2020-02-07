@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Linq;
 
 namespace Labb4ClassLibrary
 {
@@ -19,6 +20,21 @@ namespace Labb4ClassLibrary
         internal void SendData()
         {
             Socket.Send(GameData.ToBytes());
+        }
+
+        internal void SaveMatchResult(int id ,bool won, TimeSpan time)
+        {
+            Server.Cosmos.Users.Add(new MatchResult
+            {
+                Id = id,
+                Name = GameData.PlayerName,
+                Result = won ? "Win" : "Lost",
+                Length = time.ToString(),
+                Date = DateTime.UtcNow.ToString()
+            });
+            Server.Cosmos.SaveChanges();
+
+            Console.WriteLine("Data saved to database.");
         }
     }
 }
