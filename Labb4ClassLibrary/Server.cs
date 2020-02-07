@@ -55,14 +55,17 @@ namespace Labb4ClassLibrary
 
                 if (string.IsNullOrEmpty(game.PlayerName))
                 {
-                    int size = Cosmos.Users.Count();
+                    int size = Cosmos.Users.Count() + 20;
                     client.Send(BitConverter.GetBytes(size));
 
                     for (int i = 0; i < size; i++)
                     {
                         var result = Cosmos.Users.Find(i + 1);
-                        client.Send(result.ToBytes());
+                        if (result != null)
+                            client.Send(result.ToBytes());
                     }
+
+                    Console.WriteLine("Database transmitted.");
 
                     continue;
                 }
