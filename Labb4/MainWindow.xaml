@@ -1,0 +1,28 @@
+﻿<Window x:Class="Labb4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Labb4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid Margin="100,0,0,0">
+            <ContentControl Content="{Binding CurrentView}"></ContentControl>
+        </Grid>
+        <Grid>
+            <StackPanel HorizontalAlignment="Left"
+                    Width="100"
+                    Background="Gray">
+                <Button Command="{Binding ViewCommand}"
+                    CommandParameter="Menu"
+                    Content="Menu"
+                    Height="35"/>
+                <Button Command="{Binding ViewCommand}"
+                    CommandParameter="Game"
+                    Content="Game"
+                    Height="35"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

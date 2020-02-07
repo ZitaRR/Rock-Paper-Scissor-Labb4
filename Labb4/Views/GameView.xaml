@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Labb4.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Labb4.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="700">
+    <Grid>
+        <StackPanel VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Width="126"
+                    Margin="115 20">
+            <Label HorizontalAlignment="Center"
+                   FontSize="14"
+                   Content="{Binding Name}"/>
+            <Label VerticalAlignment="Bottom"
+                   HorizontalAlignment="Center"
+                   FontSize="60"
+                   Content="{Binding Game.GameData.PlayerScore}"/>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top"
+                    HorizontalAlignment="Center">
+            <Label HorizontalAlignment="Center"
+                   Content="{Binding Game.GameData.SelectedMove}"
+                   Margin="0 0 0 10"/>
+            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0 10"/>
+            <Button Command="{Binding MatchmakeCommand}"
+                    Content="Matchmake"
+                    Width="140" Height="40"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right"
+                    Width="126"
+                    Margin="115 20">
+            <Label HorizontalAlignment="Center"
+                   FontSize="14"
+                   Content="{Binding Game.GameData.OpponentName}"/>
+            <Label VerticalAlignment="Bottom"
+                   HorizontalAlignment="Center"
+                   FontSize="60"
+                   Content="{Binding Game.GameData.OpponentScore}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Width="500" Height="156">
+            <Button Command="{Binding SelectionCommand}"
+                    CommandParameter="1"
+                    Margin="5"
+                    Width="156">
+                <Image Source="{Binding Stone}"/>
+            </Button>
+            <Button Command="{Binding SelectionCommand}"
+                    CommandParameter="2"
+                    Margin="5"
+                    Width="156">
+                <Image Source="{Binding Scissors}"/>
+            </Button>
+            <Button Command="{Binding SelectionCommand}"
+                    CommandParameter="3"
+                    Margin="5"
+                    Width="156">
+                <Image Source="{Binding Paper}"/>
+            </Button>
+        </StackPanel>
+        <Button Command="{Binding MoveCommand}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Content="Make Move"
+                Width="150" Height="40"
+                Margin="0 40"/>
+    </Grid>
+</UserControl>
