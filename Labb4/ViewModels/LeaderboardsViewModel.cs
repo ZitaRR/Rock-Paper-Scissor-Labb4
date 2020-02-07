@@ -67,6 +67,7 @@ namespace Labb4.ViewModels
                     socket.Receive(data);
                     var result = MatchResult.GetObject(data);
                     Matches.Add(result);
+                    MessageBox.Show("HELLO");
                 }
             }).Start();
         }
